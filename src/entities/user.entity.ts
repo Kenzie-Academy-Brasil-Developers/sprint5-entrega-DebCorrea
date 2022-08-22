@@ -18,10 +18,10 @@ class User {
   age: number;
 
   @Column()
-  createdAt: Date;
+  created_at: Date;
 
   @Column()
-  updatedAt: Date;
+  updated_at: Date;
 }
 
 export { User };

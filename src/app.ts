@@ -7,4 +7,4 @@ const app = express();
 app.use(express.json());
 app.use("/users", userRoutes);
 
-app.listen(3000, () => console.log("Server running"));
+export default app.listen(3000, () => console.log("Server running"));

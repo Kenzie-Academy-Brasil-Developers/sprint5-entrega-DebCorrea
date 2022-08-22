@@ -3,17 +3,17 @@ import { v4 as uuidv4 } from "uuid";
 
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/user.entity";
-import { IUserRequest } from "../interfaces/user.interfaces";
+import { IUserRequest, IUserResponse } from "../interfaces/user.interfaces";
 
 const createUserService = async ({
   name,
   email,
-  password,
+  userPassword,
   age,
-}: IUserRequest): Promise<User> => {
+}: IUserRequest): Promise<IUserResponse> => {
   const userRepository = AppDataSource.getRepository(User);
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(userPassword, 10);
 
   const user = userRepository.create({
     id: uuidv4(),
@@ -21,13 +21,15 @@ const createUserService = async ({
     email,
     password: hashedPassword,
     age,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    created_at: new Date(),
+    updated_at: new Date(),
   });
 
   await userRepository.save(user);
 
-  return user;
+  const { password, ...rest } = user;
+
+  return rest;
 };
 
 export default createUserService;

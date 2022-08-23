@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   createUserController,
+  listOneUserController,
   listUsersController,
 } from "../controllers/user.controllers";
 import userAlreadyExists from "../middlewares/userAlreadyExists.middleware";
@@ -19,5 +20,6 @@ userRoutes.post(
   createUserController
 );
 userRoutes.get("", listUsersController);
+userRoutes.get("/:id", listOneUserController);
 
 export default userRoutes;

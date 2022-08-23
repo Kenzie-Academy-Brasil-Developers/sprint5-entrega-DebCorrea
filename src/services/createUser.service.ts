@@ -8,12 +8,12 @@ import { IUserRequest, IUserResponse } from "../interfaces/user.interfaces";
 const createUserService = async ({
   name,
   email,
-  userPassword,
+  password,
   age,
 }: IUserRequest): Promise<IUserResponse> => {
   const userRepository = AppDataSource.getRepository(User);
 
-  const hashedPassword = await bcrypt.hash(userPassword, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = userRepository.create({
     id: uuidv4(),
@@ -27,9 +27,7 @@ const createUserService = async ({
 
   await userRepository.save(user);
 
-  const { password, ...rest } = user;
-
-  return rest;
+  return user;
 };
 
 export default createUserService;

@@ -2,9 +2,9 @@ import * as yup from "yup";
 import { SchemaOf } from "yup";
 import { NextFunction, Request, Response } from "express";
 
-import { IUserSchema } from "../interfaces/user.interfaces";
+import { IUserRequest } from "../interfaces/user.interfaces";
 
-export const userCreationSchema: SchemaOf<IUserSchema> = yup.object().shape({
+export const userCreationSchema: SchemaOf<IUserRequest> = yup.object().shape({
   name: yup.string().required(),
   email: yup.string().email().required(),
   password: yup.string().required(),
@@ -12,7 +12,7 @@ export const userCreationSchema: SchemaOf<IUserSchema> = yup.object().shape({
 });
 
 export const validateUserCreation =
-  (schema: SchemaOf<IUserSchema>) =>
+  (schema: SchemaOf<IUserRequest>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body;

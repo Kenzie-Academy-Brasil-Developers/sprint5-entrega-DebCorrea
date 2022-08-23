@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { instanceToPlain } from "class-transformer";
+
 import createUserService from "../services/createUser.service";
 import listOneUserService from "../services/listOneUser.service";
 import listUsersService from "../services/listUsers.service";
@@ -10,11 +12,11 @@ const createUserController = async (req: Request, res: Response) => {
     const user = await createUserService({
       name,
       email,
-      userPassword: password,
+      password,
       age,
     });
 
-    return res.status(201).json(user);
+    return res.status(201).json(instanceToPlain(user));
   } catch (error) {
     if (error instanceof Error) {
       return res.status(400).json({
@@ -27,7 +29,7 @@ const createUserController = async (req: Request, res: Response) => {
 const listUsersController = async (req: Request, res: Response) => {
   const users = await listUsersService();
 
-  return res.json(users);
+  return res.json(instanceToPlain(users));
 };
 
 const listOneUserController = async (req: Request, res: Response) => {
@@ -36,7 +38,7 @@ const listOneUserController = async (req: Request, res: Response) => {
 
     const user = await listOneUserService(id);
 
-    return res.json(user);
+    return res.json(instanceToPlain(user));
   } catch (error) {
     if (error instanceof Error) {
       return res.status(400).json({

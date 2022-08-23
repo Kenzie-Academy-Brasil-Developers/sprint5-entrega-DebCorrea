@@ -6,6 +6,7 @@ import createUserService from "../services/createUser.service";
 import listOneUserService from "../services/listOneUser.service";
 import listUsersService from "../services/listUsers.service";
 import updateUserService from "../services/updateUser.service";
+import deleteUserService from "../services/deleteUser.service";
 
 const createUserController = async (req: Request, res: Response) => {
   try {
@@ -75,9 +76,28 @@ const updateUserController = async (req: Request, res: Response) => {
   }
 };
 
+const deleteUserController = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await deleteUserService(id);
+
+    return res.status(200).json({
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(404).json({
+        message: error.message,
+      });
+    }
+  }
+};
+
 export {
   createUserController,
   listUsersController,
   listOneUserController,
   updateUserController,
+  deleteUserController,
 };
